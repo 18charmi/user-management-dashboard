@@ -1,3 +1,4 @@
+import LinearLoader from "../components/Loader";
 
 export type Column<T> = {
   header: string;
@@ -6,6 +7,7 @@ export type Column<T> = {
 };
 
 type TableProps<T> = {
+  loading: boolean;
   data: T[];
   columns: Column<T>[];
   keyExtractor: (row: T) => React.Key;
@@ -13,19 +15,20 @@ type TableProps<T> = {
 };
 
 function Table<T>({
+  loading,
   data,
   columns,
   keyExtractor,
   emptyMessage = "No records found.",
 }: TableProps<T>) {
-  if (data.length === 0) {
-    return (
-      <div className="p-4 text-center text-gray-500">{emptyMessage}</div>
-    );
-  }
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow">
+    <div className="overflow-x-auto rounded-lg shadow ">
+
+      <div className="h-1 bg-gray-100">
+        <LinearLoader loading={loading} />
+      </div>
+
       <table className="min-w-full border-collapse">
         <thead className="bg-gray-100">
           <tr>
@@ -40,6 +43,17 @@ function Table<T>({
           </tr>
         </thead>
         <tbody>
+          {/* 🔹 Empty State */}
+          {data.length === 0 && !loading && (
+            <tr>
+              <td
+                colSpan={3}
+                className="p-4 text-center text-gray-500 border"
+              >
+                {emptyMessage}
+              </td>
+            </tr>
+          )}
           {data.map((row) => (
             <tr
               key={keyExtractor(row)}

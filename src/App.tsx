@@ -1,31 +1,33 @@
-import { getUsers } from './api/userApi';
 import './App.css'
+import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar'
 import UserTable from './components/UserTable'
-import { useAxios } from './hooks/useAxios';
-import type { User } from './types';
+import { useUserDirectory } from './hooks/useUserDirectory';
 
 function App() {
 
-  const { data: users, loading, error } = useAxios<User[]>(getUsers);
-
-  const handleSearch = (value: string) => { }
+  const {
+    users,
+    loading,
+    error,
+    setQuery,
+    page,
+    setPage,
+    totalPages,
+  } = useUserDirectory(5);
+  const handleSearch = (value: string) => { setQuery(value) }
 
   return (
     <div className='flex flex-col'>
 
       <SearchBar onSearch={handleSearch} />
-      {
-        // TODO: replace with linear loader
-        loading && <div>Loading users…</div>
-      }
-      {error &&
+      {error ?
         <div>
           Error: {error}
-        </div>
+        </div> :
+        <UserTable list={users || []} loading={loading} />
       }
-      <UserTable list={users || []} />
-
+      <Pagination page={page} totalPages={totalPages} setPage={setPage} />
     </div>
   )
 }

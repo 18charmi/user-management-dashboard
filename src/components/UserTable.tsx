@@ -7,10 +7,11 @@ const columns: Column<User>[] = [
     { header: "Company", accessor: (row) => row.company.name },
 ];
 
-function UserTable({ list }: { list: User[] }) {
+function UserTable({ list, loading }: { list: User[], loading: boolean }) {
 
     return (
         <Table
+            loading={loading}
             data={list}
             columns={columns}
             keyExtractor={(row) => row.id}
