@@ -1,3 +1,29 @@
+# Objective:
+Build a small React application that demonstrates your ability to work with APIs, manage
+state, and create a clean, user-friendly UI.
+
+Task: User Directory
+
+1. Fetch Data:
+Fetch users from https://jsonplaceholder.typicode.com/users.
+2. Display in a Table:
+Show the following columns:
+  - Name
+  - Email
+  - Company
+3. Search/Filter (Debounced):
+Add a search bar to filter users by name or email.
+- The search should be debounced (e.g., 500ms delay).
+4. Loading & Error States:
+- Show a loading indicator while fetching data.
+- Show an error message if the fetch fails.
+5. Pagination (Optional, Bonus):
+- Implement client-side pagination (e.g., 5 users per page).
+- Allow navigating between pages.
+
+--------------------------------------------------
+--------------------------------------------------
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
