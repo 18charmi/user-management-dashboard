@@ -23,20 +23,21 @@ function Table<T>({
 }: TableProps<T>) {
 
   return (
+
     <div className="overflow-x-auto rounded-lg shadow ">
 
       <div className="h-1 bg-gray-100">
         <LinearLoader loading={loading} />
       </div>
 
-      <table className="min-w-full border-collapse">
-        <thead className="bg-gray-100">
+      <table className="table-fixed w-full border border-gray-200 rounded-lg text-sm">
+        <thead className="bg-gray-100 text-gray-700 uppercase text-xs font-semibold">
+
           <tr>
             {columns.map((col, i) => (
               <th
                 key={i}
-                className={`px-4 py-2 text-left font-medium text-gray-700 ${col.className || ""}`}
-              >
+                className={`w-1/3 p-3 text-left  ${col.className || ""}`}>
                 {col.header}
               </th>
             ))}
@@ -48,7 +49,7 @@ function Table<T>({
             <tr>
               <td
                 colSpan={3}
-                className="p-4 text-center text-gray-500 border"
+                className="p-4 text-center text-gray-500 "
               >
                 {emptyMessage}
               </td>
@@ -57,7 +58,8 @@ function Table<T>({
           {data.map((row) => (
             <tr
               key={keyExtractor(row)}
-              className="border-t hover:bg-gray-50"
+              className="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors"
+
             >
               {columns.map((col, i) => {
                 const cell =
@@ -66,7 +68,8 @@ function Table<T>({
                     : (row[col.accessor] as React.ReactNode);
 
                 return (
-                  <td key={i} className="px-4 py-2 text-gray-800">
+                  <td key={i}
+                    className="p-4 text-left truncate whitespace-nowrap overflow-hidden">
                     {cell}
                   </td>
                 );

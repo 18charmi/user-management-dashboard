@@ -2,13 +2,14 @@ import { useMemo, useState } from "react";
 import { getUsers } from "../api/userApi";
 import type { User } from "../types";
 import { useAxios } from "./useAxios";
+import { usePagination } from "./usePagination";
 
 
 export function useUserDirectory(pageSize: number = 5) {
   const { data: users, loading, error } = useAxios<User[]>(getUsers);
 
   const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
+  const [searching, setSearching] = useState(false);
 
   const filteredUsers = useMemo(() => {
     if (!users) return [];
@@ -22,16 +23,13 @@ export function useUserDirectory(pageSize: number = 5) {
     );
   }, [users, query]);
 
-  // Pagination
-  const totalPages = Math.ceil(filteredUsers.length / pageSize);
-
-  const paginatedUsers = useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return filteredUsers.slice(start, start + pageSize);
-  }, [filteredUsers, page, pageSize]);
+  const { page, setPage, totalPages, paginatedData } = usePagination<User>(
+    filteredUsers,
+    pageSize
+  );
 
   return {
-    users: paginatedUsers,
+    users: paginatedData,
     loading,
     error,
     query,
@@ -39,5 +37,7 @@ export function useUserDirectory(pageSize: number = 5) {
     page,
     setPage,
     totalPages,
+    searching,
+    setSearching
   };
 }
